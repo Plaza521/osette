@@ -24,11 +24,70 @@ code:
     mov ax, 3
     int 10h
 
-    mov ah, 0Eh
-    mov al, 'a'
+    mov ax, 1301h
+    mov cx, 10
+    mov bp, .message
+    xor dx, dx
+    mov bx, 7
     int 10h
 
-    jmp $
+    mov ax, 204h
+    mov cx, 2
+    mov dl, [BOOT_DRV]
+    xor dh, dh
+    mov bx, secstage
+    int 13h
+    jc booterror
+
+    jmp secstage
+.message db "Loading..."
+
+; Print unsigned int
+;
+; AX - Num to convert
+its:
+    pusha
+
+    mov cx, 0
+    mov bx, 10
+
+.push:
+    mov dx, 0
+    div bx
+    inc cx
+    push dx
+    test ax, ax
+    jnz .push
+.pop:
+    pop dx
+    add dl, '0'
+    push ax
+    mov ah, 0Eh
+    mov al, dl
+    int 10h
+    pop ax
+    loop .pop
+
+    popa
+    ret
+
+booterror:
+    mov [errcode], ah
+    mov ax, 3
+    int 10h
+    mov ax, 1301h
+    mov bx, 7
+    xor dx, dx
+    mov cx, 13
+    mov bp, .message
+    int 10h
+    xor ax, ax
+    mov al, [errcode]
+    call its
+    cli
+    hlt
+.message db "Error! Code: "
+errcode db 0
 
 times 444-($-$$) db 0
 DETECTED_HARDWARE dw 0
