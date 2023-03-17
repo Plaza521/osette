@@ -11,9 +11,12 @@ fasm secstage.asm bin/secstage.bin
 echo
 fasm filetable.asm bin/filetable.bin
 echo
+fasm kernel.asm bin/kernel.bin
+echo
 echo
 
 dd if=/dev/zero of=img/boot.img bs=1024 count=1440
 dd if=bin/bootloader.bin of=img/boot.img conv=notrunc
 dd if=bin/secstage.bin of=img/boot.img conv=notrunc bs=512 seek=1
 dd if=bin/filetable.bin of=img/boot.img conv=notrunc bs=512 seek=2
+dd if=bin/kernel.bin of=img/boot.img conv=notrunc bs=512 seek=4
