@@ -5,6 +5,13 @@ org 8400h
 include 'inc/constants.inc'
 
 kernel:
+    pusha
+    xor ax, ax
+    mov es, ax
+    mov word [es:IVT_VIDEO], video_handler
+    mov word [es:IVT_VIDEO+2], cs
+    popa
+
     mov ax, 3
     int 10h
     
@@ -17,3 +24,5 @@ kernel:
     jmp $
 
 hw db "Hello, world!"
+
+include 'inc/interrupts.inc'
