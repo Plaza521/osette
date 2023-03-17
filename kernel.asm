@@ -12,8 +12,10 @@ kernel:
     mov word [es:IVT_VIDEO+2], cs
     popa
     
-    mov ah, 1
-    mov si, hw
+    xor ah, ah
+    int 20h
+    mov ah, 4
+    mov bx, 255
     int 20h
 
     jmp $
