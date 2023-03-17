@@ -1,4 +1,4 @@
-; int 20h
+; int 20h - video handler
 ; AH - operation
 ;   00 - Clear screen
 ;   01 - Print cstring
