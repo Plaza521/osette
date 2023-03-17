@@ -12,6 +12,8 @@ kernel:
     mov word [es:IVT_VIDEO+2], cs
     popa
 
+    int 20h
+
     mov ax, 3
     int 10h
     
