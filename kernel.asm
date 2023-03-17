@@ -10,12 +10,15 @@ kernel:
     mov es, ax
     mov word [es:IVT_VIDEO], video_handler
     mov word [es:IVT_VIDEO+2], cs
+    mov word [es:IVT_KEYBOARD], keyboard_handler
+    mov word [es:IVT_KEYBOARD+2], cs
     popa
     
     xor ah, ah
-    int 20h
-    mov ah, 4
-    mov bx, 255
+    int 21h
+    
+    xchg ax, bx
+    mov ah, 3
     int 20h
 
     jmp $
