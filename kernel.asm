@@ -12,15 +12,12 @@ kernel:
     mov word [es:IVT_VIDEO+2], cs
     popa
     
-    mov ax, 1301h
-    mov cx, 13
-    mov bp, hw
-    xor dx, dx
-    mov bx, 7
-    int 10h
+    mov ah, 1
+    mov si, hw
+    int 20h
 
     jmp $
 
-hw db "Hello, world!"
+hw db "Hello, world!", 0
 
 include 'inc/interrupts.inc'
