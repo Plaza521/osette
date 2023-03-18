@@ -13,12 +13,14 @@ kernel:
     mov word [es:IVT_KEYBOARD], keyboard_handler
     mov word [es:IVT_KEYBOARD+2], cs
     popa
-    
+
     xor ah, ah
-    int 21h
-    
-    xchg ax, bx
-    mov ah, 3
+    mov si, hw + 2
+    mov cx, 5
+    int 22h
+
+    mov ah, 1
+    mov si, hw
     int 20h
 
     jmp $
